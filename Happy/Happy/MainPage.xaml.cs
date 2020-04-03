@@ -50,5 +50,91 @@ namespace Happy
 
            
         }
+
+        private async void BtnAdd_Clicked(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtName.Text))
+            {
+                await DisplayAlert("Zorunlu", "Lütfen İsim Giriniz!", "TAMAM");            
+            }
+            else
+            {
+                Person p1 = new Person()
+                {
+                    Name = txtName.Text
+                };
+
+                SQLiteHelper helper = new SQLiteHelper();
+               
+                await helper.SaveItemAsync(p1);
+                txtName.Text = string.Empty;
+                await DisplayAlert("Başarılı", "Kişi başarılı olarak eklenmiştir.", "TAMAM");
+                
+                var personList = await helper.GetItemsAsync();
+                if (personList != null)
+                {
+                    lstPersons.ItemsSource = personList;
+                }
+            }
+        }
+
+        private async void BtnUpdate_Clicked(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtId.Text))
+            {
+                await DisplayAlert("Zorunlu", "Lütfen Id Giriniz", "TAMAM");
+                
+            }
+            else
+            {
+                Person person = new Person()
+                {
+                    Id = Convert.ToInt32(txtId.Text),
+                    Name = txtName.Text
+                };
+
+                SQLiteHelper helper = new SQLiteHelper();
+
+                await helper.SaveItemAsync(person);
+
+                txtId.Text = string.Empty;
+                txtName.Text = string.Empty;
+                await DisplayAlert("Başarılı", "Kişi başarılı olarak güncellenmiştir.", "TAMAM");
+
+                var personList = await helper.GetItemsAsync();
+                if (personList != null)
+                {
+                    lstPersons.ItemsSource = personList;
+                }
+            }
+        }
+
+        private async void BtnDelete_Clicked(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtId.Text))
+            {
+                await DisplayAlert("Zorunlu", "Lütfen Id Giriniz", "TAMAM"); 
+            }
+            else
+            {
+
+                SQLiteHelper helper = new SQLiteHelper();
+
+                var person = await helper.GetItemAsync(Convert.ToInt32(txtId.Text));
+                if (person != null)
+                {
+
+                    await helper.DeleteItemAsync(person);
+                    txtId.Text = string.Empty;
+                    await DisplayAlert("Başarılı", "Kişi başarılı olarak silindi.", "TAMAM");
+
+                    var personList = await helper.GetItemsAsync();
+                    if (personList != null)
+                    {
+                        lstPersons.ItemsSource = personList;
+                    }
+                }
+            }
+        }
     }
 }

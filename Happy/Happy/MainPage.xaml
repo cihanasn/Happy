@@ -12,7 +12,18 @@
         <Label Text="Welcome to Xamarin.Forms!" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
+        
+        
         <StackLayout HorizontalOptions="Center" VerticalOptions="Start">
+            <Entry x:Name="txtId" Placeholder="Id Giriniz"></Entry>
+            <Entry x:Name="txtName" Placeholder="İsim Giriniz"></Entry>
+            <StackLayout  HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+                <Button x:Name="btnAdd" WidthRequest="150" Text="Ekle" Clicked="BtnAdd_Clicked" />
+                <Button x:Name="btnUpdate" WidthRequest="150" Text="Güncelle" Clicked="BtnUpdate_Clicked"/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+                <Button x:Name="btnDelete" WidthRequest="300" Text="Sil" Clicked="BtnDelete_Clicked" />
+            </StackLayout>
             <ListView x:Name="lstPersons">
                 <ListView.ItemTemplate>
                     <DataTemplate>
