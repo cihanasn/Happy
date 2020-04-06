@@ -3,36 +3,59 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Happy.Controls"
+             xmlns:local="clr-namespace:Happy" 
              mc:Ignorable="d"
-             x:Class="Happy.MainPage">
+             Visual="Material"
+             x:Class="Happy.MainPage"
+             
+             >
+    <ContentPage.BindingContext>
+        <local:ViewModel />
+    </ContentPage.BindingContext>
 
-    <StackLayout>
-        
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-        
-        
-        <StackLayout HorizontalOptions="Center" VerticalOptions="Start">
-            <Entry x:Name="txtId" Placeholder="Id Giriniz"></Entry>
-            <Entry x:Name="txtName" Placeholder="İsim Giriniz"></Entry>
-            <StackLayout  HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
-                <Button x:Name="btnAdd" WidthRequest="150" Text="Ekle" Clicked="BtnAdd_Clicked" />
-                <Button x:Name="btnUpdate" WidthRequest="150" Text="Güncelle" Clicked="BtnUpdate_Clicked"/>
-            </StackLayout>
-            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
-                <Button x:Name="btnDelete" WidthRequest="300" Text="Sil" Clicked="BtnDelete_Clicked" />
-            </StackLayout>
-            <ListView x:Name="lstPersons">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextCell Text="{Binding Name}" Detail="{Binding Id}"></TextCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+    <StackLayout Spacing="12"
+                 VerticalOptions="Start"
+                 HorizontalOptions="Center">
+
+        <controls:InitialsView WidthRequest="250"
+                               HeightRequest="250"
+                               Name="{Binding Text, Source={x:Reference NameEntry}}" />
+
+        <Entry x:Name="txtId" Placeholder="Id Giriniz"></Entry>
+        <Entry x:Name="NameEntry" Placeholder="İsim Giriniz"></Entry>
+        <StackLayout  HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+            <Button x:Name="btnAdd" WidthRequest="150" Text="Ekle" Clicked="BtnAdd_Clicked" />
+            <Button x:Name="btnUpdate" WidthRequest="150" Text="Güncelle" Clicked="BtnUpdate_Clicked"/>
         </StackLayout>
-       
+        <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+            <Button x:Name="btnDelete" WidthRequest="300" Text="Sil" Clicked="BtnDelete_Clicked" />
+            
+        </StackLayout>
+
+
+        <StackLayout BindableLayout.ItemsSource="{Binding List, Mode=OneWay}"     
+                 VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="300" BackgroundColor="AliceBlue">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="0.5"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text= "{Binding Id}" FontSize="Medium" FontFamily="serif-monospace"></Label>
+                        <Label Grid.Column="1" Text="{Binding Name}" FontSize="Medium" FontFamily="serif-monospace" TextColor="YellowGreen"></Label>
+                    </Grid>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </StackLayout>
+
     </StackLayout>
+
+    
 
 </ContentPage>
